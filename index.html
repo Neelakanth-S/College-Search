@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College seacrh</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+#container{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    background: url('./5.jpg');
+    background-repeat: no-repeat;
+    background-size:100vw;
+    background-position-x: center;
+}
+
+#header{
+    width: 100vw;
+    height: 10vh;
+    padding: 0% 3%;
+    display: flex;
+    align-items: center;
+    background-color: #000;
+}
+
+#header > span{
+    font-size: 1.8rem;
+    font-weight: 600;
+    font-family: 'Lobster', cursive;
+    color: #fff;
+}
+
+#find_clg{
+    border-radius: 10px;
+    padding: 8px;
+    background: #000;
+    color: #fff;
+    font-size: 1.5rem;
+    font-family: 'Mochiy Pop P One', sans-serif;
+}
+
+#search{
+    width: 100vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    align-items: center;
+    justify-content: center;
+}
+
+#seacrh_box{
+    width: 25%;
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #808080;
+    border-radius: 10px;
+    background: #fff;
+}
+
+#seacrhbox{
+    width: 90%;
+    height: 100%;
+    border: none;
+    font-size: 1.2rem;
+    padding: 0% 5%;
+    border-radius: 10px;
+    outline: none;
+}
+
+#seacrhicon{
+    width: 10%;
+    height: 100%;
+    cursor: pointer;
+}
+
+#clg_list{
+    margin-top: 1vh;
+    border-top: 1px solid #000;
+    width: 100vw;
+    height: 59vh;
+    overflow-y: scroll;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    padding: 1% 10% 0% 10%;
+}
+
+#serialnum{
+    width: 20%;
+    text-align: center;
+}
+
+#serialnum > span{
+    display: block;
+    border: 1px solid #808080;
+    border-top: none;  
+}
+
+#country{
+    width: 30%;
+    text-align: center;
+}
+
+.heading{
+    width: 100%;
+    height: 10%;
+    border: 2px solid #000;
+}
+
+#country > span{
+    display: block;
+    border: 1px solid #808080;
+    border-top: none;    
+}
+
+#clg_name{
+    width: 30%;
+    text-align: center;
+}
+
+#clg_name >span{
+    display: block;
+    border: 1px solid #808080;
+    border-top: none;
+}
+
+#clg_list::-webkit-scrollbar{
+    width: 1px;
+}
+
+.whitebg{
+    background: #fff;
+}
+    </style>
+    <script  defer >const clicked=_=>{
+        let city=document.getElementById('seacrhbox').value;
+        if(city==""){
+            alert('enter your country');
+        }
+        else{
+            document.getElementById('clg_list').style.background="#fff"
+            fetch('http://universities.hipolabs.com/search?country='+city).then(res=>res.json())
+            .then(res=>{
+                console.log(res)
+                for(let i=0;i<res.length;i++){
+                    let snum=document.createElement('span');
+                    let clgname=document.createElement('span');
+                    let country=document.createElement('span');
+                    country.innerText=res[i].country;
+                    clgname.innerText=res[i].name;
+                    snum.innerText=i+1;
+                    console.log(res[i].country);
+                    document.getElementById('country').appendChild(country);
+                    document.getElementById('clg_name').appendChild(clgname);
+                    document.getElementById('serialnum').appendChild(snum);
+                }
+            })
+        }
+    }
+    
+    const searchicon=document.getElementById('seacrhicon');
+    searchicon.addEventListener('click',clicked);</script>
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <span>CollegeSearch.com</span>
+        </div>
+        <div id="search">
+            <div id="animated_text">
+                <span id="find_clg">Find every college in any country</span>
+            </div>
+            <div id="seacrh_box">
+                <input type="text" placeholder="Country Name to search college" id="seacrhbox" required>
+                <img src="./search_black_24dp.svg" id="seacrhicon">
+            </div>
+        </div>
+        <div id="clg_list">
+            <div id="serialnum">
+                <p class="heading">Serial Number</p>
+            </div>
+            <div id="country">
+                <p class="heading">Country</p>
+            </div>
+            <div id="clg_name">
+                <p class="heading">College Name</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
